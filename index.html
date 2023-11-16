@@ -84,6 +84,15 @@
 			} else if (e.key == "t") {
 				exportCanvas();
 			}
+			
+			if (e.key == "g") {
+				var g = document.getElementById("grid");
+				if (g.style.visibility == "visible") {
+					g.style.visibility = "hidden";
+				} else {
+					g.style.visibility = "visible";
+				}
+			}
 		}
 
 		function exportCanvas() {
