@@ -45,11 +45,7 @@
 			ctx.stroke();
 		}
 
-		function onMouseDown(x, y) {
-			//var rect = e.target.getBoundingClientRect();
-			//var mousex = e.clientX - rect.left;
-			//var mousey = e.clientY - rect.top;
-
+		function paintColor(x, y) {
 			var col = x;
 			var row = y;
 
@@ -78,7 +74,7 @@
 					x += 1;
 				}
 			} else if (e.key == " ") {
-				onMouseDown(x, y);
+				paintColor(x, y);
 			}
 		}
 
