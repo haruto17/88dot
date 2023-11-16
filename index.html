@@ -5,5 +5,70 @@
 	</head>
 	<body>
     	<h1 x-data="{ message: 'I ❤️ Alpine' }" x-text="message"></h1>
+		<canvas id="canvas"></canvas>
 	</body>
+	<script>
+		var canvas;
+		var ctx;
+
+		var cell_width = 64;
+		var cell_height = 64;
+
+		var canvas_magnification = 10;
+
+		function initCanvas() {
+			appendGrid();
+		}
+
+		function appendGrid() {
+			ctx.strokeStyle = "#1e90ff";
+			ctx.lineWidth = 2;
+
+			ctx.beginPath();
+  			for (var i = 0; i < cell_width+1; i++) {
+    			ctx.moveTo((i*canvas_magnification),0);
+    			ctx.lineTo((i*canvas_magnification),canvas.height);
+  			}
+
+  			for (var i = 0; i < cell_height+1; i++) {
+    			ctx.moveTo(0,(i*canvas_magnification));
+    			ctx.lineTo(canvas.height,(i*canvas_magnification));
+  			}
+			ctx.stroke();
+		}
+
+		function onMouseDown(e) {
+			var rect = e.target.getBoundingClientRect();
+			var mousex = e.clientX - rect.left;
+			var mousey = e.clientY - rect.top;
+
+			var col = Math.floor(mousex / canvas_magnification);
+			var row = Math.floor(mousey / canvas_magnification);
+
+			ctx.fillStyle = "rgb(200, 10, 10)";
+			ctx.fillRect(col * canvas_magnification, row * canvas_magnification, canvas_magnification, canvas_magnification);
+
+			appendGrid();
+		}
+
+		function onMouseUp() {
+
+		}
+
+		window.onload = (event) => {
+			canvas = document.getElementById("canvas");
+			
+			canvas.width = cell_width * canvas_magnification;
+			canvas.height = cell_height * canvas_magnification;
+
+			ctx = canvas.getContext("2d");
+
+			canvas.addEventListener("mousedown", onMouseDown);
+			canvas.addEventListener("mouseup", onMouseUp);
+			window.addEventListener("mouseup", onMouseUp);
+
+			initCanvas();
+		}
+
+	</script>
 </html>
