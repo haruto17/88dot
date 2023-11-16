@@ -10,11 +10,17 @@
 	</head>
 	<body>
     	<h1 x-data="{ message: 'I ❤️ Alpine' }" x-text="message"></h1>
-		<canvas id="canvas"></canvas>
+		<div style="position: relative;">
+			<canvas id="canvas"></canvas>
+			<canvas id="grid" style="position: absolute; top: 0px; left: 0px; visibility: visible;"></canvas>
+		</div>
 	</body>
 	<script>
 		var canvas;
-		var ctx;
+		var canvas_ctx;
+
+		var grid;
+		var grid_ctx;
 
 		var cell_width = 64;
 		var cell_height = 64;
@@ -29,28 +35,28 @@
 		}
 
 		function appendGrid() {
-			ctx.strokeStyle = "#1e90ff";
-			ctx.lineWidth = 2;
+			grid_ctx.strokeStyle = "#1e90ff";
+			grid_ctx.lineWidth = 2;
 
-			ctx.beginPath();
+			grid_ctx.beginPath();
   			for (var i = 0; i < cell_width+1; i++) {
-    			ctx.moveTo((i*canvas_magnification),0);
-    			ctx.lineTo((i*canvas_magnification),canvas.height);
+    			grid_ctx.moveTo((i*canvas_magnification),0);
+    			grid_ctx.lineTo((i*canvas_magnification),canvas.height);
   			}
 
   			for (var i = 0; i < cell_height+1; i++) {
-    			ctx.moveTo(0,(i*canvas_magnification));
-    			ctx.lineTo(canvas.height,(i*canvas_magnification));
+    			grid_ctx.moveTo(0,(i*canvas_magnification));
+    			grid_ctx.lineTo(canvas.height,(i*canvas_magnification));
   			}
-			ctx.stroke();
+			grid_ctx.stroke();
 		}
 
 		function paintColor(x, y) {
 			var col = x;
 			var row = y;
 
-			ctx.fillStyle = "rgb(200, 10, 10)";
-			ctx.fillRect(col * canvas_magnification, row * canvas_magnification, canvas_magnification, canvas_magnification);
+			canvas_ctx.fillStyle = "rgb(200, 10, 10)";
+			canvas_ctx.fillRect(col * canvas_magnification, row * canvas_magnification, canvas_magnification, canvas_magnification);
 
 			appendGrid();
 		}
@@ -90,11 +96,16 @@
 
 		window.onload = (event) => {
 			canvas = document.getElementById("canvas");
+			grid = document.getElementById("grid");
 			
 			canvas.width = cell_width * canvas_magnification;
 			canvas.height = cell_height * canvas_magnification;
 
-			ctx = canvas.getContext("2d");
+			grid.width = cell_width * canvas_magnification;
+			grid.height = cell_height * canvas_magnification;
+
+			canvas_ctx = canvas.getContext("2d");
+			grid_ctx = grid.getContext("2d");
 
 			document.addEventListener("keydown", e => {
 				onKeyDown(e);
