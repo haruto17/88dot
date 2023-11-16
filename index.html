@@ -60,6 +60,20 @@
 
 		}
 
+		function onKeyDown(e) {
+			if (e.key == "w") {
+				console.log("w down");
+			} else if (e.key == "a") {
+				console.log("a down");
+			} else if (e.key == "s") {
+				console.log("s down");
+			} else if (e.key == "d") {
+				console.log("d down");
+			} else if (e.key == " ") {
+				console.log("space down");
+			}
+		}
+
 		window.onload = (event) => {
 			canvas = document.getElementById("canvas");
 			
@@ -70,6 +84,9 @@
 
 			canvas.addEventListener("mousedown", onMouseDown);
 			canvas.addEventListener("mouseup", onMouseUp);
+			document.addEventListener("keydown", e => {
+				onKeyDown(e);
+			});
 			window.addEventListener("mouseup", onMouseUp);
 
 			initCanvas();
