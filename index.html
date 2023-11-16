@@ -75,7 +75,17 @@
 				}
 			} else if (e.key == " ") {
 				paintColor(x, y);
+			} else if (e.key == "t") {
+				exportCanvas();
 			}
+		}
+
+		function exportCanvas() {
+			canvas = document.getElementById("canvas");
+			const a = document.createElement("a");
+			a.href = canvas.toDataURL("image/png", 1.0);
+			a.download = "88.png";
+			a.click();
 		}
 
 		window.onload = (event) => {
