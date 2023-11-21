@@ -2,18 +2,14 @@
 <html>
 	<head>
 		<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.2/dist/cdn.min.js"></script>
-	<style>
-		body {
-			background-color: #181818;
-		}
-	</style>
+	<link rel="stylesheet" href="style.css">
 	</head>
 	<body>
     	<h1 x-data="{ message: '88dot' }" x-text="message" style="color: #f8f8f8;"></h1>
 		<div style="position: relative;">
 			<canvas id="canvas"></canvas>
 			<canvas id="grid" style="position: absolute; top: 0px; left: 0px; visibility: visible;"></canvas>
-			<canvas id="now" style="position: absolute; top: 0px; left: 0px; margin-top: 1px; margin-left: 1px; background-color: aqua;"></canvas>
+			<canvas class="now" id="now"></canvas>
 		</div>
 	</body>
 	<script>

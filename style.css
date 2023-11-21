@@ -1,0 +1,12 @@
+body {
+	background-color: #181818;
+}
+
+.now {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	margin-top: 1px;
+	margin-left: 1px;
+	background-color: aqua;
+}
