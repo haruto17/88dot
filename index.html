@@ -13,6 +13,7 @@
 		<div style="position: relative;">
 			<canvas id="canvas"></canvas>
 			<canvas id="grid" style="position: absolute; top: 0px; left: 0px; visibility: visible;"></canvas>
+			<canvas id="now" style="position: absolute; top: 0px; left: 0px; margin-top: 1px; margin-left: 1px; background-color: aqua;"></canvas>
 		</div>
 	</body>
 	<script>
@@ -104,12 +105,16 @@
 		window.onload = (event) => {
 			canvas = document.getElementById("canvas");
 			grid = document.getElementById("grid");
+			now = document.getElementById("now");
 			
 			canvas.width = cell_width * canvas_magnification;
 			canvas.height = cell_height * canvas_magnification;
 
 			grid.width = cell_width * canvas_magnification;
 			grid.height = cell_height * canvas_magnification;
+
+			now.width = canvas_magnification - 2;
+			now.height = canvas_magnification - 2;
 
 			canvas_ctx = canvas.getContext("2d");
 			grid_ctx = grid.getContext("2d");
