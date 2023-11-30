@@ -1,129 +1,132 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.2/dist/cdn.min.js"></script>
+
+<head>
+	<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.2/dist/cdn.min.js"></script>
 	<link rel="stylesheet" href="style.css">
-	</head>
-	<body>
-    	<h1 x-data="{ message: '88dot' }" x-text="message" style="color: #f8f8f8;"></h1>
-		<div style="position: relative;">
-			<canvas class="canvas" id="canvas"></canvas>
-			<canvas class="grid" id="grid"></canvas>
-			<canvas class="now" id="now"></canvas>
-		</div>
-	</body>
-	<script>
-		var canvas;
-		var canvas_ctx;
+</head>
 
-		var grid;
-		var grid_ctx;
+<body>
+	<h1 x-data="{ message: '88dot' }" x-text="message" style="color: #f8f8f8;"></h1>
+	<div style="position: relative;">
+		<canvas class="canvas" id="canvas"></canvas>
+		<canvas class="grid" id="grid"></canvas>
+		<canvas class="now" id="now"></canvas>
+	</div>
+</body>
+<script>
+	var canvas;
+	var canvas_ctx;
 
-		var cell_width = 64;
-		var cell_height = 64;
+	var grid;
+	var grid_ctx;
 
-		var x = 0;
-		var y = 0;
+	var cell_width = 64;
+	var cell_height = 64;
 
-		var canvas_magnification = 10;
+	var x = 0;
+	var y = 0;
 
-		function initCanvas() {
-			appendGrid();
+	var canvas_magnification = 10;
+
+	function initCanvas() {
+		appendGrid();
+	}
+
+	function appendGrid() {
+		grid_ctx.strokeStyle = "#f8f8f8";
+		grid_ctx.lineWidth = 2;
+
+		grid_ctx.beginPath();
+		for (var i = 0; i < cell_width + 1; i++) {
+			grid_ctx.moveTo((i * canvas_magnification), 0);
+			grid_ctx.lineTo((i * canvas_magnification), canvas.height);
 		}
 
-		function appendGrid() {
-			grid_ctx.strokeStyle = "#f8f8f8";
-			grid_ctx.lineWidth = 2;
-
-			grid_ctx.beginPath();
-  			for (var i = 0; i < cell_width+1; i++) {
-    			grid_ctx.moveTo((i*canvas_magnification),0);
-    			grid_ctx.lineTo((i*canvas_magnification),canvas.height);
-  			}
-
-  			for (var i = 0; i < cell_height+1; i++) {
-    			grid_ctx.moveTo(0,(i*canvas_magnification));
-    			grid_ctx.lineTo(canvas.height,(i*canvas_magnification));
-  			}
-			grid_ctx.stroke();
+		for (var i = 0; i < cell_height + 1; i++) {
+			grid_ctx.moveTo(0, (i * canvas_magnification));
+			grid_ctx.lineTo(canvas.height, (i * canvas_magnification));
 		}
+		grid_ctx.stroke();
+	}
 
-		function paintColor(x, y) {
-			var col = x;
-			var row = y;
+	function paintColor(x, y) {
+		var col = x;
+		var row = y;
 
-			canvas_ctx.fillStyle = "rgb(200, 10, 10)";
-			canvas_ctx.fillRect(col * canvas_magnification, row * canvas_magnification, canvas_magnification, canvas_magnification);
-		}
+		canvas_ctx.fillStyle = "rgb(200, 10, 10)";
+		canvas_ctx.fillRect(col * canvas_magnification, row * canvas_magnification, canvas_magnification, canvas_magnification);
+	}
 
-		function onKeyDown(e) {
-			if (e.key == "w") {
-				if (y > 0) {
-					y -= 1;
-				}
-			} else if (e.key == "a") {
-				if (x > 0) {
-					x -= 1;
-				}
-			} else if (e.key == "s") {
-				if (y < 63) {
-					y += 1;
-				}
-			} else if (e.key == "d") {
-				if (x < 63) {
-					x += 1;
-				}
-			} else if (e.key == " ") {
-				paintColor(x, y);
-			} else if (e.key == "t") {
-				exportCanvas();
+	function onKeyDown(e) {
+		if (e.key == "w") {
+			if (y > 0) {
+				y -= 1;
 			}
-			
-			if (e.key == "g") {
-				var g = document.getElementById("grid");
-				if (g.style.visibility == "visible") {
-					g.style.visibility = "hidden";
-				} else {
-					g.style.visibility = "visible";
-				}
+		} else if (e.key == "a") {
+			if (x > 0) {
+				x -= 1;
 			}
-			
-			now = document.getElementById("now");
-			now.style.top = y * canvas_magnification + "px";
-			now.style.left = x * canvas_magnification + "px";
+		} else if (e.key == "s") {
+			if (y < 63) {
+				y += 1;
+			}
+		} else if (e.key == "d") {
+			if (x < 63) {
+				x += 1;
+			}
+		} else if (e.key == " ") {
+			paintColor(x, y);
+		} else if (e.key == "t") {
+			exportCanvas();
 		}
 
-		function exportCanvas() {
-			canvas = document.getElementById("canvas");
-			const a = document.createElement("a");
-			a.href = canvas.toDataURL("image/png", 1.0);
-			a.download = "88.png";
-			a.click();
+		if (e.key == "g") {
+			var g = document.getElementById("grid");
+			if (g.style.visibility == "visible") {
+				g.style.visibility = "hidden";
+			} else {
+				g.style.visibility = "visible";
+			}
 		}
 
-		window.onload = (event) => {
-			canvas = document.getElementById("canvas");
-			grid = document.getElementById("grid");
-			now = document.getElementById("now");
-			
-			canvas.width = cell_width * canvas_magnification;
-			canvas.height = cell_height * canvas_magnification;
+		now = document.getElementById("now");
+		now.style.top = y * canvas_magnification + "px";
+		now.style.left = x * canvas_magnification + "px";
+	}
 
-			grid.width = cell_width * canvas_magnification;
-			grid.height = cell_height * canvas_magnification;
+	function exportCanvas() {
+		canvas = document.getElementById("canvas");
+		const a = document.createElement("a");
+		a.href = canvas.toDataURL("image/png", 1.0);
+		a.download = "88.png";
+		a.click();
+	}
 
-			now.width = canvas_magnification - 2;
-			now.height = canvas_magnification - 2;
+	window.onload = (event) => {
+		canvas = document.getElementById("canvas");
+		grid = document.getElementById("grid");
+		now = document.getElementById("now");
 
-			canvas_ctx = canvas.getContext("2d");
-			grid_ctx = grid.getContext("2d");
+		canvas.width = cell_width * canvas_magnification;
+		canvas.height = cell_height * canvas_magnification;
 
-			document.addEventListener("keydown", e => {
-				onKeyDown(e);
-			});
+		grid.width = cell_width * canvas_magnification;
+		grid.height = cell_height * canvas_magnification;
 
-			initCanvas();
-		}
+		now.width = canvas_magnification - 2;
+		now.height = canvas_magnification - 2;
 
-	</script>
+		canvas_ctx = canvas.getContext("2d");
+		grid_ctx = grid.getContext("2d");
+
+		document.addEventListener("keydown", e => {
+			onKeyDown(e);
+		});
+
+		initCanvas();
+	}
+
+</script>
+
 </html>
