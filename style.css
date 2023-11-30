@@ -6,7 +6,8 @@ body {
 	position: absolute;
 	top: 0px;
 	left: 0px;
-		visibility: visible;
+	visibility: visible;
+	pointer-events: none;
 }
 
 .now {
@@ -16,4 +17,5 @@ body {
 	margin-top: 1px;
 	margin-left: 1px;
 	background-color: aqua;
+	pointer-events: none;
 }
